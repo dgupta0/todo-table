@@ -24,7 +24,7 @@ function App() {
       id: 2
     }
   ])
-  console.log(todos)
+  console.log(task, todos)
   function setUpTask() {
     setIsForm(true)
   }
@@ -47,6 +47,7 @@ function App() {
     e.preventDefault()
     if (editState) {
       setToDos(prev => {
+        debugger;
         let newArr = [...prev]
         for (let i = 0; i < newArr.length; i++) {
           if (newArr[i].id === task.id) {
@@ -56,6 +57,12 @@ function App() {
         return newArr
       })
     } else {
+      let idArr = []
+      for (let i = 0; i < todos.length; i++) {
+        idArr.push(todos[i].id)
+      }
+      task.id = Math.max(...idArr) + 1
+
       setToDos(prev => {
         let newArr = [...prev]
         newArr.push(task)
