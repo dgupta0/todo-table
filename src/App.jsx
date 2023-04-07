@@ -9,51 +9,75 @@ import { Button } from 'antd';
 
 function App() {
   const [isForm, setIsForm] = React.useState(false)
+  const [editState, setEditState] = React.useState(false)
   const [task, setTask] = React.useState({})
   const [todos, setToDos] = React.useState([
     {
       title: "Read",
       description: "read a book",
-      key: "Read",
-      id: "Read"
+      id: 1
     },
     {
       title: "Write",
       description: "write a blog",
       tag: ["marketing", "finance"],
-      key: "Write",
-      id: "Write"
+      id: 2
     }
   ])
-
+  console.log(todos)
   function setUpTask() {
-    setIsForm(prev => !prev)
+    setIsForm(true)
+  }
+
+  function cancelTask() {
+    setIsForm(false)
+    setEditState(false)
   }
 
   function handleChange(e) {
-    console.log(task)
-    console.log(task)
     setTask(prev => {
       return {
         ...prev,
-        key: prev.title,
-        id: prev.title,
         [e.target.name]: e.target.value
       }
     })
   }
+
   function saveDetails(e) {
     e.preventDefault()
-    setToDos(prev => {
-      let newArr = [...prev]
-      newArr.push(task)
-      console.log(newArr)
-      return newArr
-    })
+    if (editState) {
+      setToDos(prev => {
+        let newArr = [...prev]
+        for (let i = 0; i < newArr.length; i++) {
+          if (newArr[i].id === task.id) {
+            newArr[i] = { ...task }
+          }
+        }
+        return newArr
+      })
+    } else {
+      setToDos(prev => {
+        let newArr = [...prev]
+        newArr.push(task)
+        return newArr
+      })
+    }
     setTask({})
     setIsForm(false)
-
+    setEditState(false)
   }
+
+  function editTask(id) {
+    setEditState(true)
+    setIsForm(true)
+    setTask(prev => {
+      let newArr = todos.filter(el => el.id === id)
+      return newArr[0]
+    }
+    )
+  }
+
+
   function removeTask(id) {
     setToDos(prev => {
       return prev.filter(todo => todo.id !== id)
@@ -85,9 +109,12 @@ function App() {
           { title: "Status", dataIndex: "status" },
           { title: "Tag", dataIndex: "tag" },
           {
+            dataIndex: 'id',
             title: "Modify",
-            render: () => [
-              <button className='formBtn edit'>Edit</button>
+            render: (id) => [
+              <button
+                onClick={() => editTask(id)}
+                className='formBtn edit'>Edit</button>
             ]
           },
           {
@@ -114,6 +141,7 @@ function App() {
                   type="date"
                   id="TimeStamp"
                   name="timeStamp"
+                  // value={task ? task.timeStamp : ""}
                   required
                 />
               </label>
@@ -121,10 +149,11 @@ function App() {
               <label htmlFor="title">Title:
                 <input
                   onChange={handleChange}
-                  type="name"
+                  type="text"
                   id="title"
                   name="title"
                   maxLength="100"
+                  value={task ? task.title : ""}
                   required
                 />
               </label>
@@ -134,10 +163,11 @@ function App() {
               <label htmlFor="desc">Description:
                 <input
                   onChange={handleChange}
-                  type="name"
+                  type="text"
                   id="desc"
                   name="description"
                   maxLength="100"
+                  value={task ? task.description : ""}
                   required
                 />
               </label>
@@ -147,6 +177,7 @@ function App() {
                   type="date"
                   id="dueDate"
                   name="duedate"
+                // value={task ? task.dueDate : ""}
                 />
               </label>
             </div>
@@ -223,7 +254,7 @@ function App() {
             </fieldset>
             <div className='btnContainer'>
               <button id='submit' type="button" onClick={saveDetails}>Save</button>
-              <button id="cancel" type="button" onClick={setUpTask}>Cancel</button>
+              <button id="cancel" type="button" onClick={cancelTask}>Cancel</button>
             </div>
           </form>
         </div>
