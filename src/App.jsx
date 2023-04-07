@@ -13,12 +13,16 @@ function App() {
   const [todos, setToDos] = React.useState([
     {
       title: "Read",
-      description: "read a book"
+      description: "read a book",
+      key: "Read",
+      id: "Read"
     },
     {
       title: "Write",
       description: "write a blog",
-      tag: ["marketing", "finance"]
+      tag: ["marketing", "finance"],
+      key: "Write",
+      id: "Write"
     }
   ])
 
@@ -28,15 +32,18 @@ function App() {
 
   function handleChange(e) {
     console.log(task)
-    console.log(e.target, e.target.value)
+    console.log(task)
     setTask(prev => {
       return {
         ...prev,
+        key: prev.title,
+        id: prev.title,
         [e.target.name]: e.target.value
       }
     })
   }
-  function saveDetails() {
+  function saveDetails(e) {
+    e.preventDefault()
     setToDos(prev => {
       let newArr = [...prev]
       newArr.push(task)
@@ -46,6 +53,11 @@ function App() {
     setTask({})
     setIsForm(false)
 
+  }
+  function removeTask(id) {
+    setToDos(prev => {
+      return prev.filter(todo => todo.id !== id)
+    })
   }
 
   return (
@@ -79,17 +91,22 @@ function App() {
             ]
           },
           {
+            dataIndex: 'id',
             title: "Delete",
-            render: () => [
-              <button className='formBtn del'>Delete</button>
-            ]
+            render: function (id) {
+              return [
+                <button onClick={() => {
+                  removeTask(id)
+                }} className='formBtn del'>Delete</button>
+              ]
+            }
           }
         ]}>
       </ProTable>
       {
         isForm &&
         <div className='formModal'>
-          <form>
+          <form action="#">
             <div className='pairInput'>
               <label htmlFor="TimeStamp">Timestamp:
                 <input
@@ -97,6 +114,7 @@ function App() {
                   type="date"
                   id="TimeStamp"
                   name="timeStamp"
+                  required
                 />
               </label>
 
@@ -107,6 +125,7 @@ function App() {
                   id="title"
                   name="title"
                   maxLength="100"
+                  required
                 />
               </label>
 
@@ -119,6 +138,7 @@ function App() {
                   id="desc"
                   name="description"
                   maxLength="100"
+                  required
                 />
               </label>
               <label htmlFor="duedate">Due Date:
