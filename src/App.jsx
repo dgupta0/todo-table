@@ -13,15 +13,19 @@ function App() {
   const [task, setTask] = React.useState({})
   const [todos, setToDos] = React.useState([
     {
+      timeStamp: "8/4/2023",
       title: "Read",
       description: "read a book",
-      id: 1
+      id: 1,
+      status: "Open"
     },
     {
+      timeStamp: "8/4/2023",
       title: "Write",
       description: "write a blog",
       tag: ["marketing", "finance"],
-      id: 2
+      id: 2,
+      status: "Open"
     }
   ])
 
@@ -62,6 +66,7 @@ function App() {
   }
 
   function saveDetails(e) {
+    const renderOnly = task.timeStamp && task.title && task.description && task.status
     e.preventDefault()
     if (editState) {
       setToDos(prev => {
@@ -79,12 +84,14 @@ function App() {
         idArr.push(todos[i].id)
       }
       task.id = idArr.length ? Math.max(...idArr) + 1 : 1
+      if (renderOnly) {
+        setToDos(prev => {
+          let newArr = [...prev]
+          newArr.push(task)
+          return newArr
+        })
+      }
 
-      setToDos(prev => {
-        let newArr = [...prev]
-        newArr.push(task)
-        return newArr
-      })
     }
     setTask({})
     setIsForm(false)
