@@ -142,7 +142,9 @@ function App() {
           false
         }
         dataSource={todos}
-        pagination={1}
+        pagination={
+          { pageSize: 5 }
+        }
         rowKey={'id'}
         columns={[
           { title: "Time Stamp", dataIndex: "timeStamp" },
@@ -188,17 +190,6 @@ function App() {
         <div className='formModal'>
           <form action="#">
             <div className='pairInput'>
-              {/* <label htmlFor="TimeStamp">Timestamp:
-                <input
-                  onChange={handleChange}
-                  type="date"
-                  id="TimeStamp"
-                  name="timeStamp"
-                  value={task ? task.timeStamp : validDateFormat}
-                  required
-                />
-              </label> */}
-
               <label htmlFor="title">Title:
                 <input
                   onChange={handleChange}
@@ -211,8 +202,6 @@ function App() {
                 />
               </label>
 
-            </div>
-            <div className='pairInput'>
               <label htmlFor="desc">Description:
                 <input
                   onChange={handleChange}
@@ -224,16 +213,17 @@ function App() {
                   required
                 />
               </label>
-              <label htmlFor="duedate">Due Date:
-                <input
-                  onChange={handleChange}
-                  type="date"
-                  id="dueDate"
-                  name="duedate"
-                  value={task ? task.duedate : ""}
-                />
-              </label>
             </div>
+            <label htmlFor="duedate">Due Date:
+              <input
+                onChange={handleChange}
+                type="date"
+                id="dueDate"
+                name="duedate"
+                value={task ? task.duedate : ""}
+              />
+            </label>
+
             <fieldset>
               <legend>Task domain(s):</legend>
               <input
