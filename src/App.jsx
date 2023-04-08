@@ -10,6 +10,8 @@ import { Button } from 'antd';
 function App() {
   const [isForm, setIsForm] = React.useState(false)
   const [editState, setEditState] = React.useState(false)
+  const [delId, setDelId] = React.useState(0)
+  const [taskDeleteModal, setTaskDeleteModal] = React.useState(false)
   const [task, setTask] = React.useState({})
   const [todos, setToDos] = React.useState([
     {
@@ -108,11 +110,19 @@ function App() {
     )
   }
 
-
   function removeTask(id) {
+    setTaskDeleteModal(true)
+    setDelId(id)
+
+  }
+  function CancelDelete() {
+    setTaskDeleteModal(false)
+  }
+  function finallyRemove() {
     setToDos(prev => {
-      return prev.filter(todo => todo.id !== id)
+      return prev.filter(todo => todo.id !== delId)
     })
+    setTaskDeleteModal(false)
   }
   // let currentTags = (task && task.tags) || []
   return (
@@ -303,6 +313,15 @@ function App() {
               <button id="cancel" type="button" onClick={cancelTask}>Cancel</button>
             </div>
           </form>
+        </div>
+      }
+      {taskDeleteModal &&
+        <div className="formModal">
+          <div className='taskDeleteModal'>
+            <h3>Are you Sure you want to delete the task?</h3>
+            <button className='delFinally' onClick={finallyRemove}>Sure</button>
+            <button className='sure' onClick={CancelDelete}>Cancel</button>
+          </div>
         </div>
       }
     </>
