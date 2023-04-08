@@ -9,4 +9,4 @@
 5. Make sure you are in the projects director.
 6. Run `npm install`
 7. Run the project `npm run dev`
-8. A link will be seen after `local:`. Copy it and past it in the browser. 
+8. A link will be seen after `local:` Copy it and past it in the browser. 
