@@ -2,17 +2,17 @@ import React from 'react';
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import { ProTable } from '@ant-design/pro-components';
-import { Button } from 'antd';
-
-
-
 
 function App() {
+  let dt = new Date()
+  let validDateFormat = dt.toISOString().split('T')[0]
+
   const [isForm, setIsForm] = React.useState(false)
   const [editState, setEditState] = React.useState(false)
   const [delId, setDelId] = React.useState(0)
   const [taskDeleteModal, setTaskDeleteModal] = React.useState(false)
   const [task, setTask] = React.useState({})
+  // some prepopulated data 
   const [todos, setToDos] = React.useState([
     {
       timeStamp: "8/4/2023",
@@ -30,6 +30,7 @@ function App() {
       status: "Open"
     }
   ])
+  console.log(todos)
 
   function setUpTask() {
     setIsForm(true)
@@ -124,7 +125,7 @@ function App() {
     })
     setTaskDeleteModal(false)
   }
-  // let currentTags = (task && task.tags) || []
+
   return (
     <>
       <h1>Todo Table</h1>
@@ -133,7 +134,7 @@ function App() {
         className='add-task'>
         Add Task +
       </button>
-      {/* <Input.Search placeholder='Search todo here...' className='search' /> */}
+
       <ProTable
         toolBarRender={false}
         search={
@@ -192,7 +193,7 @@ function App() {
                   type="date"
                   id="TimeStamp"
                   name="timeStamp"
-                  // value={task ? task.timeStamp : ""}
+                  value={validDateFormat}
                   required
                 />
               </label>
@@ -228,7 +229,7 @@ function App() {
                   type="date"
                   id="dueDate"
                   name="duedate"
-                // value={task ? task.dueDate : ""}
+                  value={task ? task.duedate : ""}
                 />
               </label>
             </div>
@@ -281,6 +282,7 @@ function App() {
                 id="open"
                 value="Open"
                 name="status"
+                checked={task.status === "Open"}
               />
               <label htmlFor="open">Open</label> <br />
               <input
@@ -289,6 +291,7 @@ function App() {
                 id="working"
                 value="Working"
                 name="status"
+                checked={task.status === "Working"}
               />
               <label htmlFor="working">Working</label> <br />
               <input
@@ -297,6 +300,7 @@ function App() {
                 id="done"
                 value="Done"
                 name="status"
+                checked={task.status === "Done"}
               />
               <label htmlFor="done">Done</label> <br />
               <input
@@ -305,6 +309,7 @@ function App() {
                 id="due"
                 value="Overdue"
                 name="status"
+                checked={task.status === "Overdue"}
               />
               <label htmlFor="due">Overdue</label>
             </fieldset>
