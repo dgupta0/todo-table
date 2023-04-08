@@ -113,6 +113,30 @@ form button {
 
 }
 
+.tag {
+    text-align: center;
+    border-radius: 5px;
+    padding: 4px;
+    margin: 2px;
+    width: fit-content;
+}
+
+.Marketing {
+    background-color: darksalmon;
+}
+
+.Finance {
+    background-color: rgb(202, 122, 233);
+}
+
+.Operation {
+    background-color: rgb(122, 161, 233);
+}
+
+.Tech {
+    background-color: rgb(228, 233, 122);
+}
+
 @media (max-width: 750px) {
 
     form {

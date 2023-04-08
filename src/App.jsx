@@ -24,7 +24,7 @@ function App() {
       id: 2
     }
   ])
-  console.log(task, todos)
+
   function setUpTask() {
     setIsForm(true)
   }
@@ -35,7 +35,6 @@ function App() {
   }
 
   function handleChange(e) {
-    console.log(e)
     setTask(prev => {
       if (e.target.type === "checkbox") {
         const targetTag = e.target.value;
@@ -132,7 +131,14 @@ function App() {
           { title: "Description", dataIndex: "description" },
           { title: "Due Date", dataIndex: "duedate" },
           { title: "Status", dataIndex: "status" },
-          { title: "Tag", dataIndex: "tags" },
+          {
+            title: "Tag",
+            render: function (task) {
+              return (task.tags || []).map(
+                t => <div className={`tag ${t}`} key={t}>{t}</div>
+              )
+            }
+          },
           {
             dataIndex: 'id',
             title: "Modify",
