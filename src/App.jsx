@@ -35,7 +35,26 @@ function App() {
   }
 
   function handleChange(e) {
+    console.log(e)
     setTask(prev => {
+      if (e.target.type === "checkbox") {
+        const targetTag = e.target.value;
+        const wasChecked = e.target.checked;
+        const wasUnchecked = !wasChecked;
+        const newTags = prev.tags || [];
+
+        if (wasChecked && !newTags.includes(targetTag)) {
+          newTags.push(targetTag)
+        } else if (wasUnchecked && newTags.includes(targetTag)) {
+          const index = newTags.indexOf(e.target.value)
+          newTags.splice(index, 1)
+        }
+        const newTask = {
+          ...prev,
+          tags: newTags
+        }
+        return newTask;
+      }
       return {
         ...prev,
         [e.target.name]: e.target.value
@@ -47,7 +66,6 @@ function App() {
     e.preventDefault()
     if (editState) {
       setToDos(prev => {
-        debugger;
         let newArr = [...prev]
         for (let i = 0; i < newArr.length; i++) {
           if (newArr[i].id === task.id) {
@@ -61,7 +79,7 @@ function App() {
       for (let i = 0; i < todos.length; i++) {
         idArr.push(todos[i].id)
       }
-      task.id = Math.max(...idArr) + 1
+      task.id = idArr.length ? Math.max(...idArr) + 1 : 1
 
       setToDos(prev => {
         let newArr = [...prev]
@@ -90,7 +108,7 @@ function App() {
       return prev.filter(todo => todo.id !== id)
     })
   }
-
+  // let currentTags = (task && task.tags) || []
   return (
     <>
       <h1>Todo Table</h1>
@@ -106,20 +124,21 @@ function App() {
           false
         }
         dataSource={todos}
-        pagination={false}
-
+        pagination={1}
+        rowKey={'id'}
         columns={[
           { title: "Time Stamp", dataIndex: "timeStamp" },
           { title: "Title", dataIndex: "title" },
           { title: "Description", dataIndex: "description" },
           { title: "Due Date", dataIndex: "duedate" },
           { title: "Status", dataIndex: "status" },
-          { title: "Tag", dataIndex: "tag" },
+          { title: "Tag", dataIndex: "tags" },
           {
             dataIndex: 'id',
             title: "Modify",
             render: (id) => [
               <button
+                key={`task-${id}`}
                 onClick={() => editTask(id)}
                 className='formBtn edit'>Edit</button>
             ]
@@ -129,9 +148,11 @@ function App() {
             title: "Delete",
             render: function (id) {
               return [
-                <button onClick={() => {
-                  removeTask(id)
-                }} className='formBtn del'>Delete</button>
+                <button
+                  key={`task-${id}`}
+                  onClick={() => {
+                    removeTask(id)
+                  }} className='formBtn del'>Delete</button>
               ]
             }
           }
@@ -195,15 +216,17 @@ function App() {
                 type="checkbox"
                 id="ops"
                 value="Operation"
-                name="tags"
+                name="ops"
+                checked={Boolean(task.tags && task.tags.includes("Operation"))}
               />
               <label htmlFor="ops">Operation</label> <br />
               <input
                 onChange={handleChange}
                 type="checkbox"
                 id="finance"
-                value="Finace"
-                name="tags"
+                value="Finance"
+                name="finance"
+                checked={Boolean(task.tags && task.tags.includes("Finance"))}
               />
               <label htmlFor="finance">Finance</label> <br />
               <input
@@ -211,7 +234,8 @@ function App() {
                 type="checkbox"
                 id="marketing"
                 value="Marketing"
-                name="tags"
+                name="marketing"
+                checked={Boolean(task.tags && task.tags.includes("Marketing"))}
               />
               <label htmlFor="marketing">Marketing</label> <br />
               <input
@@ -219,9 +243,11 @@ function App() {
                 type="checkbox"
                 id="tech"
                 value="Tech"
-                name="tags"
+                name="tech"
+                checked={Boolean(task.tags && task.tags.includes("Tech"))}
+
               />
-              <label htmlForr="tech">Tech</label>
+              <label htmlFor="tech">Tech</label>
             </fieldset>
 
             <fieldset required>
