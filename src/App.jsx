@@ -15,14 +15,14 @@ function App() {
   // some prepopulated data 
   const [todos, setToDos] = React.useState([
     {
-      timeStamp: "8/4/2023",
+      timeStamp: "2023-04-05",
       title: "Read",
       description: "read a book",
       id: 1,
       status: "Open"
     },
     {
-      timeStamp: "8/4/2023",
+      timeStamp: "2023-04-08",
       title: "Write",
       description: "write a blog",
       tag: ["marketing", "finance"],
@@ -63,6 +63,7 @@ function App() {
       }
       return {
         ...prev,
+        timeStamp: validDateFormat,
         [e.target.name]: e.target.value
       }
     })
@@ -187,16 +188,16 @@ function App() {
         <div className='formModal'>
           <form action="#">
             <div className='pairInput'>
-              <label htmlFor="TimeStamp">Timestamp:
+              {/* <label htmlFor="TimeStamp">Timestamp:
                 <input
                   onChange={handleChange}
                   type="date"
                   id="TimeStamp"
                   name="timeStamp"
-                  value={validDateFormat}
+                  value={task ? task.timeStamp : validDateFormat}
                   required
                 />
-              </label>
+              </label> */}
 
               <label htmlFor="title">Title:
                 <input
