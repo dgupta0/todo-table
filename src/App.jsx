@@ -232,7 +232,7 @@ function App() {
                 id="ops"
                 value="Operation"
                 name="ops"
-                checked={Boolean(task.tags && task.tags.includes("Operation"))}
+                checked={task.tags && task.tags.includes("Operation")}
               />
               <label htmlFor="ops">Operation</label> <br />
               <input
@@ -241,7 +241,7 @@ function App() {
                 id="finance"
                 value="Finance"
                 name="finance"
-                checked={Boolean(task.tags && task.tags.includes("Finance"))}
+                checked={task.tags && task.tags.includes("Finance")}
               />
               <label htmlFor="finance">Finance</label> <br />
               <input
@@ -250,7 +250,7 @@ function App() {
                 id="marketing"
                 value="Marketing"
                 name="marketing"
-                checked={Boolean(task.tags && task.tags.includes("Marketing"))}
+                checked={task.tags && task.tags.includes("Marketing")}
               />
               <label htmlFor="marketing">Marketing</label> <br />
               <input
@@ -259,7 +259,7 @@ function App() {
                 id="tech"
                 value="Tech"
                 name="tech"
-                checked={Boolean(task.tags && task.tags.includes("Tech"))}
+                checked={task.tags && task.tags.includes("Tech")}
 
               />
               <label htmlFor="tech">Tech</label>
